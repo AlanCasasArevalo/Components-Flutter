@@ -12,26 +12,30 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _listItemsCreation() {
-
-    menuProvider.loadData();
-
-    return ListView(
-      children: _itemsList(),
-    );
+    return FutureBuilder(
+        future: menuProvider.loadData(),
+        initialData: [],
+        // builder: (context, AsynSnapshot<List<dynamic>> snapshot),
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          return ListView(
+            children: _itemsList(snapshot.data),
+          );
+        });
   }
 
-  List<Widget> _itemsList() {
-    return [
-      ListTile(
-        title: Text('Hola Mundo'),
-      ),
-      Divider(
-        color: Colors.black,
-        height: 2,
-        thickness: 5,
-        indent: 20,
-        endIndent: 0,
-      )
-    ];
+  List<Widget> _itemsList(List<dynamic> data) {
+    final List<Widget> options = [];
+
+    data.forEach((option) {
+      final tempWidget = ListTile(
+        title: Text(option['text']),
+        // leading: Icon(option['icon']),
+        leading: Icon(Icons.add, color: Colors.blue),
+        trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+      );
+      options.add(tempWidget);
+    });
+
+    return options;
   }
 }
