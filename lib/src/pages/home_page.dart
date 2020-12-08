@@ -18,7 +18,6 @@ class HomePage extends StatelessWidget {
     return FutureBuilder(
         future: menuProvider.loadData(),
         initialData: [],
-        // builder: (context, AsynSnapshot<List<dynamic>> snapshot),
         builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
           return ListView(
             children: _itemsList(snapshot.data, context),
@@ -35,8 +34,6 @@ class HomePage extends StatelessWidget {
         leading: getIcon(option['icon']),
         trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
         onTap: () {
-          // final route = MaterialPageRoute(builder: (context) => AlertPage());
-          // Navigator.push(context, route);
           Navigator.pushNamed(context, option['route']);
         },
       );

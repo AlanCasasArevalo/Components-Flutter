@@ -16,7 +16,12 @@ class CardPage extends StatelessWidget {
 }
 
 Widget _bigCardType() {
+  var borderRadiusCircular = 16.0;
+
   return Card(
+    elevation: 8,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadiusCircular)),
     child: Column(
       children: [
         ListTile(
@@ -41,7 +46,12 @@ Widget _bigCardType() {
 }
 
 Widget _imageCardType() {
-  return Card(
+  var borderRadiusCircular = 30.0;
+  var edgeInsetsAll = 8.0;
+
+  Widget card = Card(
+    elevation: 8,
+    clipBehavior: Clip.antiAlias,
     child: Column(
       children: [
         FadeInImage(
@@ -57,9 +67,27 @@ Widget _imageCardType() {
         //         'https://photographylife.com/wp-content/uploads/2010/11/Maroon-Bells-with-Snow.jpg')
         // ),
         Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(edgeInsetsAll),
             child: Text('Habria que poner un texto dummy'))
       ],
     ),
+  );
+
+  return Container(
+    child: ClipRRect(
+      child: card,
+      borderRadius: BorderRadius.circular(borderRadiusCircular),
+    ),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadiusCircular),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Colors.black26,
+              blurRadius: 10,
+              spreadRadius: 2,
+              offset: Offset(10, 10))
+        ]
+        //    color: Colors.amberAccent
+        ),
   );
 }
