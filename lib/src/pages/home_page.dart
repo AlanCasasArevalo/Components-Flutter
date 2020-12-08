@@ -1,5 +1,7 @@
-import 'package:components/src/providers/menu_provider.dart';
 import 'package:flutter/material.dart';
+
+import 'package:components/src/providers/menu_provider.dart';
+import 'package:components/src/utils/icon_string_util.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -29,11 +31,19 @@ class HomePage extends StatelessWidget {
     data.forEach((option) {
       final tempWidget = ListTile(
         title: Text(option['text']),
-        // leading: Icon(option['icon']),
-        leading: Icon(Icons.add, color: Colors.blue),
+        leading: getIcon(option['icon']),
         trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
+        onTap: () {
+
+        },
       );
-      options.add(tempWidget);
+      options..add(tempWidget)..add(Divider(
+        color: Colors.black,
+        height: 20,
+        thickness: 5,
+        indent: 20,
+        endIndent: 0,
+      ));
     });
 
     return options;
