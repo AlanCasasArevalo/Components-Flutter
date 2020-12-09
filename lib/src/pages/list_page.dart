@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class ListPage extends StatefulWidget {
@@ -10,6 +12,7 @@ class _ListPageState extends State<ListPage> {
 
   List<int> _numberList = new List();
   int _lastItem = 0;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -17,9 +20,16 @@ class _ListPageState extends State<ListPage> {
     _addTenNewElements();
     _scrollController.addListener(() {
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        _addTenNewElements();
+        // _addTenNewElements();
+        _fetchData();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -28,7 +38,12 @@ class _ListPageState extends State<ListPage> {
       appBar: AppBar(
         title: Text('Lista de elementos'),
       ),
-      body: _listCreation(),
+      body: Stack(
+        children:[
+          _listCreation(),
+          _loadingCreation()
+        ]
+      ),
     );
   }
 
@@ -53,5 +68,27 @@ class _ListPageState extends State<ListPage> {
     }
 
     setState(() {});
+  }
+
+  Future<Null> _fetchData() async {
+    _isLoading = true;
+    setState(() {
+
+    });
+    final fetchDurationDelay = new Duration(seconds: 2);
+    new Timer(fetchDurationDelay, _responseHTTP);
+  }
+
+  void _responseHTTP() {
+    _isLoading = false;
+    _addTenNewElements();
+  }
+
+  Widget _loadingCreation() {
+    if (_isLoading) {
+      return CircularProgressIndicator();
+    } else {
+      return Container();
+    }
   }
 }
