@@ -44,7 +44,7 @@ class _ListPageState extends State<ListPage> {
   }
 
   Widget _listCreation() {
-    return ListView.builder(
+    Widget _listViewBuilder = ListView.builder(
         controller: _scrollController,
         itemCount: _numberList.length,
         itemBuilder: (BuildContext context, int index) {
@@ -54,7 +54,10 @@ class _ListPageState extends State<ListPage> {
             placeholder: AssetImage('assets/loading.gif'),
             fadeInDuration: Duration(milliseconds: 200),
           );
-        });
+        }); 
+    return RefreshIndicator(
+        child: _listViewBuilder,
+        onRefresh: _fetchFirstPage);
   }
 
   _addTenNewElements() {
@@ -64,6 +67,16 @@ class _ListPageState extends State<ListPage> {
     }
 
     setState(() {});
+  }
+
+  Future<Null> _fetchFirstPage() async {
+    final fetchDurationDelay = new Duration(seconds: 2);
+    new Timer(fetchDurationDelay, () {
+      _numberList.clear();
+      _lastItem++;
+      _addTenNewElements();
+    });
+    return Future.delayed(fetchDurationDelay);
   }
 
   Future<Null> _fetchData() async {
