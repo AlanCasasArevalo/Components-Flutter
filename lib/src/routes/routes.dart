@@ -4,6 +4,7 @@ import 'package:components/src/pages/avatar_page.dart';
 import 'package:components/src/pages/card_page.dart';
 import 'package:components/src/pages/home_page.dart';
 import 'package:components/src/pages/input_page.dart';
+import 'package:components/src/pages/list_page.dart';
 import 'package:components/src/pages/slider_page.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ final routes = <String, WidgetBuilder>{
   'animatedContainer': (BuildContext context) => AnimatedContainerPage(),
   'inputs': (BuildContext context) => InputPage(),
   'slider': (BuildContext context) => SliderPage(),
+  'list': (BuildContext context) => ListPage(),
 };
 
 // {Route<dynamic> Function(RouteSettings) onGenerateRoute}
