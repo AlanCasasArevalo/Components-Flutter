@@ -19,7 +19,8 @@ class _ListPageState extends State<ListPage> {
     super.initState();
     _addTenNewElements();
     _scrollController.addListener(() {
-      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         // _addTenNewElements();
         _fetchData();
       }
@@ -38,12 +39,7 @@ class _ListPageState extends State<ListPage> {
       appBar: AppBar(
         title: Text('Lista de elementos'),
       ),
-      body: Stack(
-        children:[
-          _listCreation(),
-          _loadingCreation()
-        ]
-      ),
+      body: Stack(children: [_listCreation(), _loadingCreation()]),
     );
   }
 
@@ -72,21 +68,31 @@ class _ListPageState extends State<ListPage> {
 
   Future<Null> _fetchData() async {
     _isLoading = true;
-    setState(() {
-
-    });
+    setState(() {});
     final fetchDurationDelay = new Duration(seconds: 2);
     new Timer(fetchDurationDelay, _responseHTTP);
   }
 
   void _responseHTTP() {
     _isLoading = false;
+    _scrollController.animateTo(_scrollController.position.pixels + 200,
+        duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
     _addTenNewElements();
   }
 
   Widget _loadingCreation() {
     if (_isLoading) {
-      return CircularProgressIndicator();
+      return Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [CircularProgressIndicator()],
+          ),
+          SizedBox(height: 50)
+        ],
+      );
     } else {
       return Container();
     }
