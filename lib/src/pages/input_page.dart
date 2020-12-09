@@ -6,13 +6,16 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-
   String _name = '';
   String _email = '';
   String _password = '';
   String _date = '';
+  String _optionSelected = 'Volar';
 
-  TextEditingController _inputTextFieldDateController = new TextEditingController();
+  List<String> _powers = ['Volar', 'Super Fuerza', 'Rayos laser'];
+
+  TextEditingController _inputTextFieldDateController =
+  new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,9 @@ class _InputPageState extends State<InputPage> {
           Divider(),
           _passwordCreation(),
           Divider(),
-          _dateCreation(context)
+          _dateCreation(context),
+          Divider(),
+          _dropDownCreation(),
         ],
       ),
     );
@@ -39,9 +44,8 @@ class _InputPageState extends State<InputPage> {
 
   Widget _personCreation() {
     return ListTile(
-      title: Text('Nombre ${ _name }'),
-      subtitle: Text('Email ${ _email }')
-    );
+        trailing: Text(_optionSelected),
+        title: Text('Nombre ${_name}'), subtitle: Text('Email ${_email}'));
   }
 
   Widget _inputCreate() {
@@ -49,16 +53,13 @@ class _InputPageState extends State<InputPage> {
       autofocus: true,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0)
-          ),
-          counter: Text('Letras ${ _name.length }'),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          counter: Text('Letras ${_name.length}'),
           hintText: 'Nombre de persona',
           labelText: 'Nombre',
           helperText: 'Solo nombre',
           suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_circle)
-      ),
+          icon: Icon(Icons.account_circle)),
       onChanged: (value) {
         setState(() {
           _name = value;
@@ -71,16 +72,13 @@ class _InputPageState extends State<InputPage> {
     return TextField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0)
-          ),
-          counter: Text('Letras ${ _email.length }'),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          counter: Text('Letras ${_email.length}'),
           hintText: 'Email',
           labelText: 'Email',
           helperText: 'Solo email',
           suffixIcon: Icon(Icons.alternate_email),
-          icon: Icon(Icons.email)
-      ),
+          icon: Icon(Icons.email)),
       onChanged: (value) {
         setState(() {
           _email = value;
@@ -93,16 +91,13 @@ class _InputPageState extends State<InputPage> {
     return TextField(
       obscureText: true,
       decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0)
-          ),
-          counter: Text('Letras ${ _email.length }'),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          counter: Text('Letras ${_email.length}'),
           hintText: 'Password',
           labelText: 'Password',
           helperText: 'Solo password',
           suffixIcon: Icon(Icons.lock_open),
-          icon: Icon(Icons.lock)
-      ),
+          icon: Icon(Icons.lock)),
       onChanged: (value) {
         setState(() {
           _email = value;
@@ -116,14 +111,11 @@ class _InputPageState extends State<InputPage> {
       enableInteractiveSelection: false,
       controller: _inputTextFieldDateController,
       decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20.0)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
           hintText: 'Fecha',
           labelText: 'Fecha',
           suffixIcon: Icon(Icons.calendar_view_day),
-          icon: Icon(Icons.calendar_today)
-      ),
+          icon: Icon(Icons.calendar_today)),
       onTap: () {
         FocusScope.of(context).requestFocus(new FocusNode());
         _selectDate(context);
@@ -137,8 +129,7 @@ class _InputPageState extends State<InputPage> {
         locale: Locale('es', 'ES'),
         initialDate: new DateTime.now(),
         firstDate: new DateTime(2019),
-        lastDate: new DateTime(2045)
-    );
+        lastDate: new DateTime(2045));
 
     if (picked != null) {
       setState(() {
@@ -148,4 +139,30 @@ class _InputPageState extends State<InputPage> {
     }
   }
 
+  Widget _dropDownCreation() {
+    Widget dropDown = DropdownButton(
+        value: _optionSelected,
+        items: _getOptionsDropDown(),
+        onChanged: (option) {
+          setState(() {
+            _optionSelected = option;
+          });
+        });
+
+    return Row(
+      children: [
+        Icon(Icons.select_all),
+        SizedBox(width: 30.0),
+        Expanded(child: dropDown)
+      ],
+    );
+  }
+
+  List<DropdownMenuItem<String>> _getOptionsDropDown() {
+    List<DropdownMenuItem<String>> list = new List();
+    _powers.forEach((power) {
+      list.add(DropdownMenuItem(child: Text(power), value: power));
+    });
+    return list;
+  }
 }
