@@ -12,11 +12,6 @@
       "text": "Avatars"
     },
     {
-      "route": "avatar",
-      "icon": "accessibility",
-      "text": "Avatars"
-    },
-    {
       "route": "animatedContainer",
       "icon": "donut_large",
       "text": "Animated Container"

@@ -7,7 +7,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
 
-  String _name;
+  String _name = '';
 
   @override
   Widget build(BuildContext context) {
