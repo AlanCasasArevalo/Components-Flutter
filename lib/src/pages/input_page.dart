@@ -10,6 +10,9 @@ class _InputPageState extends State<InputPage> {
   String _name = '';
   String _email = '';
   String _password = '';
+  String _date = '';
+
+  TextEditingController _inputTextFieldDateController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,9 @@ class _InputPageState extends State<InputPage> {
           Divider(),
           _emailCreation(),
           Divider(),
-          _passwordCreation()
+          _passwordCreation(),
+          Divider(),
+          _dateCreation(context)
         ],
       ),
     );
@@ -95,7 +100,7 @@ class _InputPageState extends State<InputPage> {
           hintText: 'Password',
           labelText: 'Password',
           helperText: 'Solo password',
-          suffixIcon: Icon(Icons.lock),
+          suffixIcon: Icon(Icons.lock_open),
           icon: Icon(Icons.lock)
       ),
       onChanged: (value) {
@@ -104,6 +109,43 @@ class _InputPageState extends State<InputPage> {
         });
       },
     );
+  }
+
+  Widget _dateCreation(BuildContext context) {
+    return TextField(
+      enableInteractiveSelection: false,
+      controller: _inputTextFieldDateController,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+          ),
+          hintText: 'Fecha',
+          labelText: 'Fecha',
+          suffixIcon: Icon(Icons.calendar_view_day),
+          icon: Icon(Icons.calendar_today)
+      ),
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        _selectDate(context);
+      },
+    );
+  }
+
+  void _selectDate(BuildContext context) async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        locale: Locale('es', 'ES'),
+        initialDate: new DateTime.now(),
+        firstDate: new DateTime(2019),
+        lastDate: new DateTime(2045)
+    );
+
+    if (picked != null) {
+      setState(() {
+        _date = picked.toString();
+        _inputTextFieldDateController.text = _date;
+      });
+    }
   }
 
 }
