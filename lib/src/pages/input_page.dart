@@ -9,6 +9,7 @@ class _InputPageState extends State<InputPage> {
 
   String _name = '';
   String _email = '';
+  String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,9 @@ class _InputPageState extends State<InputPage> {
           Divider(),
           _personCreation(),
           Divider(),
-          _emailCreation()
+          _emailCreation(),
+          Divider(),
+          _passwordCreation()
         ],
       ),
     );
@@ -72,6 +75,28 @@ class _InputPageState extends State<InputPage> {
           helperText: 'Solo email',
           suffixIcon: Icon(Icons.alternate_email),
           icon: Icon(Icons.email)
+      ),
+      onChanged: (value) {
+        setState(() {
+          _email = value;
+        });
+      },
+    );
+  }
+
+  Widget _passwordCreation() {
+    return TextField(
+      obscureText: true,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0)
+          ),
+          counter: Text('Letras ${ _email.length }'),
+          hintText: 'Password',
+          labelText: 'Password',
+          helperText: 'Solo password',
+          suffixIcon: Icon(Icons.lock),
+          icon: Icon(Icons.lock)
       ),
       onChanged: (value) {
         setState(() {
